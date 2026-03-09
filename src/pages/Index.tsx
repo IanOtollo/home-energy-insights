@@ -1,12 +1,45 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Zap } from "lucide-react";
+import { useAppliances, useSettings } from "@/hooks/useAppliances";
+import DashboardCards from "@/components/DashboardCards";
+import AddApplianceForm from "@/components/AddApplianceForm";
+import ApplianceTable from "@/components/ApplianceTable";
+import EnergyChart from "@/components/EnergyChart";
+import ElectricityPriceSettings from "@/components/ElectricityPriceSettings";
 
 const Index = () => {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const { data: appliances = [], isLoading: loadingAppliances } = useAppliances();
+  const { data: settings, isLoading: loadingSettings } = useSettings();
+  const price = settings?.electricity_price ?? 0;
+
+  if (loadingAppliances || loadingSettings) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="animate-pulse text-muted-foreground">Loading…</div>
       </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-card">
+        <div className="container mx-auto flex items-center gap-3 px-4 py-5">
+          <div className="rounded-lg bg-primary p-2">
+            <Zap className="h-6 w-6 text-primary-foreground" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Energy Usage Optimizer</h1>
+            <p className="text-sm text-muted-foreground">Track and optimize your household electricity consumption</p>
+          </div>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 space-y-6">
+        <ElectricityPriceSettings />
+        <DashboardCards appliances={appliances} electricityPrice={price} />
+        <AddApplianceForm />
+        <ApplianceTable appliances={appliances} electricityPrice={price} />
+        <EnergyChart appliances={appliances} />
+      </main>
     </div>
   );
 };
