@@ -21,6 +21,7 @@ export type Database = {
           hours_per_day: number
           id: string
           name: string
+          user_id: string
           watts: number
         }
         Insert: {
@@ -29,6 +30,7 @@ export type Database = {
           hours_per_day: number
           id?: string
           name: string
+          user_id: string
           watts: number
         }
         Update: {
@@ -37,6 +39,7 @@ export type Database = {
           hours_per_day?: number
           id?: string
           name?: string
+          user_id?: string
           watts?: number
         }
         Relationships: []
@@ -45,14 +48,44 @@ export type Database = {
         Row: {
           electricity_price: number
           id: string
+          user_id: string
         }
         Insert: {
           electricity_price?: number
           id?: string
+          user_id: string
         }
         Update: {
           electricity_price?: number
           id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      usage_history: {
+        Row: {
+          id: string
+          month_year: string
+          recorded_at: string
+          total_monthly_cost: number
+          total_monthly_kwh: number
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          month_year: string
+          recorded_at?: string
+          total_monthly_cost: number
+          total_monthly_kwh: number
+          user_id: string
+        }
+        Update: {
+          id?: string
+          month_year?: string
+          recorded_at?: string
+          total_monthly_cost?: number
+          total_monthly_kwh?: number
+          user_id?: string
         }
         Relationships: []
       }
