@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface Appliance {
   id: string;
@@ -7,6 +8,7 @@ export interface Appliance {
   watts: number;
   hours_per_day: number;
   days_per_month: number;
+  user_id: string;
   created_at: string;
 }
 
@@ -18,8 +20,9 @@ export interface NewAppliance {
 }
 
 export function useAppliances() {
+  const { user } = useAuth();
   return useQuery({
-    queryKey: ["appliances"],
+    queryKey: ["appliances", user?.id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("appliances")
@@ -28,14 +31,17 @@ export function useAppliances() {
       if (error) throw error;
       return data as Appliance[];
     },
+    enabled: !!user,
   });
 }
 
 export function useAddAppliance() {
   const qc = useQueryClient();
+  const { user } = useAuth();
   return useMutation({
     mutationFn: async (appliance: NewAppliance) => {
-      const { error } = await supabase.from("appliances").insert(appliance);
+      if (!user) throw new Error("Not authenticated");
+      const { error } = await supabase.from("appliances").insert({ ...appliance, user_id: user.id });
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["appliances"] }),
@@ -54,17 +60,30 @@ export function useDeleteAppliance() {
 }
 
 export function useSettings() {
+  const { user } = useAuth();
   return useQuery({
-    queryKey: ["settings"],
+    queryKey: ["settings", user?.id],
     queryFn: async () => {
+      if (!user) return null;
       const { data, error } = await supabase
         .from("settings")
         .select("*")
         .limit(1)
-        .single();
+        .maybeSingle();
       if (error) throw error;
-      return data as { id: string; electricity_price: number };
+      if (!data) {
+        // Create default settings for this user
+        const { data: newSettings, error: insertError } = await supabase
+          .from("settings")
+          .insert({ electricity_price: 0, user_id: user.id })
+          .select()
+          .single();
+        if (insertError) throw insertError;
+        return newSettings as { id: string; electricity_price: number; user_id: string };
+      }
+      return data as { id: string; electricity_price: number; user_id: string };
     },
+    enabled: !!user,
   });
 }
 
@@ -79,6 +98,40 @@ export function useUpdateSettings() {
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["settings"] }),
+  });
+}
+
+export function useUsageHistory() {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ["usage_history", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("usage_history")
+        .select("*")
+        .order("month_year", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user,
+  });
+}
+
+export function useSaveUsageSnapshot() {
+  const qc = useQueryClient();
+  const { user } = useAuth();
+  return useMutation({
+    mutationFn: async ({ monthYear, totalKwh, totalCost }: { monthYear: string; totalKwh: number; totalCost: number }) => {
+      if (!user) throw new Error("Not authenticated");
+      const { error } = await supabase
+        .from("usage_history")
+        .upsert(
+          { user_id: user.id, month_year: monthYear, total_monthly_kwh: totalKwh, total_monthly_cost: totalCost },
+          { onConflict: "user_id,month_year" }
+        );
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["usage_history"] }),
   });
 }
 
