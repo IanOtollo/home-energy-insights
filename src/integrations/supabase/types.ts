@@ -14,7 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appliances: {
+        Row: {
+          created_at: string
+          days_per_month: number
+          hours_per_day: number
+          id: string
+          name: string
+          watts: number
+        }
+        Insert: {
+          created_at?: string
+          days_per_month: number
+          hours_per_day: number
+          id?: string
+          name: string
+          watts: number
+        }
+        Update: {
+          created_at?: string
+          days_per_month?: number
+          hours_per_day?: number
+          id?: string
+          name?: string
+          watts?: number
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          electricity_price: number
+          id: string
+        }
+        Insert: {
+          electricity_price?: number
+          id?: string
+        }
+        Update: {
+          electricity_price?: number
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
