@@ -55,6 +55,10 @@ const Index = () => {
         <EnergySavingTips appliances={appliances} />
         <UsageTrends />
       </main>
+
+      <footer className="border-t border-border mt-auto h-24 flex items-center justify-center text-sm text-muted-foreground">
+        Built and powered by IanOtollo
+      </footer>
     </div>
   );
 };

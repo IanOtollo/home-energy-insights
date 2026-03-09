@@ -1,73 +1,60 @@
-# Welcome to your Lovable project
+# Energy Usage Optimizer
 
-## Project info
+Track and optimize your household electricity consumption in real-time.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Appliance Tracking**: Manage your household appliances and their power ratings.
+- **Energy Insights**: Get real-time data on your energy usage and costs.
+- **Usage Trends**: Visualize your consumption patterns over time.
+- **Cost Estimation**: Calculate your monthly and yearly electricity expenses based on local rates.
+- **Saving Tips**: Receive personalized recommendations to reduce your energy footprint.
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React.js + TypeScript + Vite
+- **UI Components**: shadcn/ui + Tailwind CSS
+- **Backend/Database**: Supabase
+- **State Management**: React Query
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v18 or higher)
+- npm or bun
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/IanOtollo/home-energy-insights.git
+   cd home-energy-insights
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Set up environment variables:
+   Create a `.env` file in the root directory and add your Supabase credentials:
+   ```env
+   VITE_SUPABASE_URL=your_supabase_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. Run the development server:
+   ```sh
+   npm run dev
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Mobile App (PWA)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+This application supports PWA (Progressive Web App) features. To install it on your mobile device:
 
-**Edit a file directly in GitHub**
+- **Android**: Open the site in Chrome and click "Add to Home Screen".
+- **iOS**: Open the site in Safari and click the "Share" button -> "Add to Home Screen".
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+Built and powered by IanOtollo
