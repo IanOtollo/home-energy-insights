@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => ({
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
       manifest: {
         name: "Energy Usage Optimizer",
-        short_name: "EnergyOptimizer",
+        short_name: "Energy App",
         description: "Track and optimize your household electricity consumption",
         theme_color: "#0f172a",
         icons: [

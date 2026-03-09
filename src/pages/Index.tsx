@@ -57,7 +57,7 @@ const Index = () => {
       </main>
 
       <footer className="border-t border-border mt-auto h-24 flex items-center justify-center text-sm text-muted-foreground">
-        Built and powered by IanOtollo
+        Built and powered by <a href="https://ianotollo.vercel.app" target="_blank" rel="noopener noreferrer" className="ml-1 font-medium hover:text-primary transition-colors underline decoration-dotted underline-offset-4">IanOtollo</a>
       </footer>
     </div>
   );
